@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 
 void test_vector_00(void)
 {
@@ -21,11 +22,41 @@ void test_vector_00(void)
     }
 }
 
+void test_queue_00(void)
+{
+    std::queue<int> q;
+    q.push(10);
+    q.push(13);
+    q.push(16);
+    
+    while (!q.empty()) {
+        std::cout << q.front() << std::endl;
+        q.pop();
+    }
+}
+
+void test_queue_01(void)
+{
+    std::queue<std::shared_ptr<int>> q;
+    q.push(std::make_shared<int>(10));
+    q.push(std::make_shared<int>(13));
+    q.push(std::make_shared<int>(16));
+    
+    while (!q.empty()) {
+        std::shared_ptr<int> ref = q.front();
+        std::cout << *ref << std::endl;
+        q.pop();
+    }
+}
+
 
 
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
-    test_vector_00();
+    //test_vector_00();
+    //test_queue_00();
+    test_queue_01();
+    
     return 0;
 }
