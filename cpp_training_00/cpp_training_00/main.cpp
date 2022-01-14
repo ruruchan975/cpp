@@ -2,12 +2,12 @@
 //  main.cpp
 //  cpp_training_00
 //
-//  Created by 荒木田英穂 on 2022/01/10.
 //
 
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <future>
 
 void test_vector_00(void)
 {
@@ -49,6 +49,19 @@ void test_queue_01(void)
     }
 }
 
+int parallel_add(int a, int b)
+{
+    return a+b;
+}
+
+void test_feature_00(void)
+{
+    std::future<int> f1 = std::async(std::launch::deferred | std::launch::async, parallel_add, 5, 6 );
+    int a = parallel_add(3, 6);
+    
+    std::cout << a + f1.get() << std::endl;
+    
+}
 
 
 int main(int argc, const char * argv[]) {
@@ -56,7 +69,8 @@ int main(int argc, const char * argv[]) {
     std::cout << "Hello, World!\n";
     //test_vector_00();
     //test_queue_00();
-    test_queue_01();
+    //test_queue_01();
+    test_feature_00();
     
     return 0;
 }
