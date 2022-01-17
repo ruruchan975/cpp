@@ -10,6 +10,8 @@
 #include <future>
 #include <numeric>
 #include <stdexcept>
+#include <vector>
+#include <algorithm>
 
 
 
@@ -45,6 +47,7 @@ void test_task_package_01(void)
 
 }
 
+
 void print_int(std::future<int>& fut)
 {
     std::cout << "wait for comming data." << std::endl;
@@ -66,11 +69,29 @@ void test_promise_00(void)
 }
 
 
+void test_for_00(void)
+{
+    std::vector<int> v = {1, 2, 3, 4, 5};
+    
+    for (int val : v) {
+        std::cout << val << std::endl;
+    }
+    
+    for (std::vector<int>::iterator it = v.begin(), end = v.end(); it != end; it++) {
+        std::cout << *it << std::endl;
+    }
+    
+    std::for_each(v.begin(), v.end(),
+                  [](int n) {
+        std::cout << n << std::endl;
+    });
+}
 
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
-    test_task_package_01();
+    //test_task_package_01();
     //test_promise_00();
+    test_for_00();
     return 0;
 }
