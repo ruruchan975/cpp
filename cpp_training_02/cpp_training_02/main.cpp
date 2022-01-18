@@ -10,6 +10,7 @@
 #include <vector>
 #include <chrono>
 #include <execution>
+#include <memory>
 
 
 const size_t DataSize = 5'000'000;
@@ -85,12 +86,49 @@ void test_vector_00(void)
 }
 
 
+void test_shared_ptr_sub00(std::vector<std::shared_ptr<int>> v)
+{
+    std::cout << "test_shared_ptr_sub00" << std::endl;
+    for (std::shared_ptr<int> x : v) {
+        std::cout << *x << std::endl;
+    }
+}
+
+void test_shared_ptr(void)
+{
+    std::shared_ptr<int> ps = std::make_shared<int>(20);
+    std::unique_ptr<int> pu = std::make_unique<int>(100);
+    std::unique_ptr<int> pui;
+    std::shared_ptr<int> psi;
+    
+    //pui = pu;
+    psi = ps;
+    
+    std::cout << *ps << std::endl;
+    std::cout << *psi << std::endl;
+    std::cout << *pu << std::endl;
+    
+    std::vector<std::shared_ptr<int>> v;
+    std::shared_ptr<int> ps0 = std::make_shared<int>(99);
+    v.push_back(ps);
+    v.push_back(ps0);
+    v.push_back(psi);
+    v.push_back(ps0);
+    *psi = 30;
+    
+    test_shared_ptr_sub00(v);
+    
+    
+}
+
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
     
     //test_parallel_sort();
-    test_vector_00();
+    //test_vector_00();
+    test_shared_ptr();
     
     
     return 0;
