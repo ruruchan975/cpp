@@ -11,7 +11,7 @@
 #include <chrono>
 #include <execution>
 #include <memory>
-
+#include <fstream>
 
 const size_t DataSize = 5'000'000;
 const int numLoop = 10;
@@ -94,6 +94,7 @@ void test_shared_ptr_sub00(std::vector<std::shared_ptr<int>> v)
     }
 }
 
+
 void test_shared_ptr(void)
 {
     std::shared_ptr<int> ps = std::make_shared<int>(20);
@@ -122,13 +123,42 @@ void test_shared_ptr(void)
 }
 
 
+void test_fstream_00(void)
+{
+
+    std::ofstream ofs("sample.txt");
+    ofs << "Sample" << 19 << std::endl;
+    ofs.close();
+    
+    
+    std::ifstream ifs("sample.txt");
+    if (ifs) {
+        if (ifs) {
+            std::string s;
+            int i;
+            ifs >> s >> i;
+            
+            std::cout << s << std::endl;
+            std::cout << i << std::endl;
+            
+        }
+        std::cout << "s = " << s << std::endl;
+        std::cout << "i = " << i << std::endl;
+    } else {
+        std::cerr << "I cannot open " << std::endl;
+    }
+    
+}
+
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
     
     //test_parallel_sort();
     //test_vector_00();
-    test_shared_ptr();
+    //test_shared_ptr();
+    test_fstream_00();
     
     
     return 0;
