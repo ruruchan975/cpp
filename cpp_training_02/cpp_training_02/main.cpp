@@ -130,7 +130,6 @@ void test_fstream_00(void)
     ofs << "Sample" << 19 << std::endl;
     ofs.close();
     
-    
     std::ifstream ifs("sample.txt");
     if (ifs) {
         if (ifs) {
@@ -138,12 +137,10 @@ void test_fstream_00(void)
             int i;
             ifs >> s >> i;
             
-            std::cout << s << std::endl;
-            std::cout << i << std::endl;
-            
+            std::cout << "s = " << s << std::endl;
+            std::cout << "i = " << i << std::endl;
+
         }
-        std::cout << "s = " << s << std::endl;
-        std::cout << "i = " << i << std::endl;
     } else {
         std::cerr << "I cannot open " << std::endl;
     }

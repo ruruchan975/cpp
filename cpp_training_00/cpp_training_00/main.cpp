@@ -93,6 +93,7 @@ void receiving()
     
     std::cout << "Finish = " << share_data << std::endl;
 }
+
 void test_cond_00(void)
 {
     std::thread send_thread(sending);
@@ -102,9 +103,42 @@ void test_cond_00(void)
     send_thread.join();
 }
 
-void test_package_task_00(void)
+
+int share_data01 = 0;
+std::condition_variable cond01;
+std::mutex mtx01;
+
+void sending01()
 {
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        share_data01++;
+        cond01.notify_one();
+        if (share_data01 > 10) {
+            break;
+        }
+    }
+}
+
+void receiving01()
+{
+    std::unique_lock<std::mutex> uniq(mtx01);
+    cond01.wait(uniq,
+              [] {
+        std::cout << "Data = " << share_data01 << std::endl;
+        return share_data01 == 10;
+    });
     
+    std::cout << "Finish = " << share_data01 << std::endl;
+}
+void test_cond_01(void)
+{
+    std::thread send_thread(sending01);
+    std::thread receive_thread(receiving01);
+    
+    receive_thread.join();
+    send_thread.join();
+
     
 }
 
@@ -117,7 +151,7 @@ int main(int argc, const char * argv[]) {
     //test_queue_01();
     //test_feature_00();
     //test_cond_00();
-    test_package_task_00();
+    test_cond_01();
     
     return 0;
 }
