@@ -12,6 +12,7 @@
 #include <execution>
 #include <memory>
 #include <fstream>
+#include <list>
 
 const size_t DataSize = 5'000'000;
 const int numLoop = 10;
@@ -147,6 +148,51 @@ void test_fstream_00(void)
     
 }
 
+template<typename T>
+std::list<T> qs_seq(std::list<T> input)
+{
+    //recursive condition
+    if ( input.size() < 2 )
+    {
+        return input;
+    }
+
+    //move frist element in the list to result list and take it as pivot value
+    std::list<T> result;
+    result.splice(result.begin(), input, input.begin());
+    T pivot = *result.begin();
+
+    //partition the input array so that t< pivot in lower part and t> pivot in upper part of input list
+    auto divide_point = std::partition(input.begin(), input.end(),
+        [&](T const& t)
+        {
+            return t < pivot;
+        });
+
+    //move lower part of the list to separate list so that we can make recursive call
+    std::list<T> lower_list;
+    lower_list.splice(lower_list.end(), input, input.begin(), divide_point);
+
+    //call the sequenctial_quick_sort recursively
+    auto new_lower(qs_seq(std::move(lower_list)));
+    auto new_upper(qs_seq(std::move(input)));
+
+    //transfer all elements in to result list
+    result.splice(result.begin(), new_lower);
+    result.splice(result.end(), new_upper);
+
+    return result;
+}
+
+void test_qs_00(void)
+{
+    std::list<int> l = {19, 71, 8, 13, 5};
+    std::list<int> q = qs_seq(l);
+    for (int v : q) {
+        std::cout << v << "," << std::endl;
+ 
+    }
+}
 
 int main(int argc, const char * argv[]) {
     // insert code here...
@@ -155,8 +201,8 @@ int main(int argc, const char * argv[]) {
     //test_parallel_sort();
     //test_vector_00();
     //test_shared_ptr();
-    test_fstream_00();
-    
+    //test_fstream_00();
+    test_qs_00();
     
     return 0;
 }
