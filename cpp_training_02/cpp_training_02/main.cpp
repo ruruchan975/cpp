@@ -192,6 +192,42 @@ void test_qs_00(void)
         std::cout << v << "," << std::endl;
  
     }
+    
+    {
+        
+        std::list<int> xs = {4, 5, 6};
+        std::list<int> ys = {1, 2, 3};
+        xs.splice(xs.begin(), std::move(ys));
+        for (int v : xs) {
+            std::cout << v << ",";
+        }
+        std::cout << std::endl;
+    }
+    {
+       std::list<int> xs = {4, 5, 6};
+       std::list<int> ys = {1, 2, 3};
+
+       xs.splice(xs.begin(), std::move(ys), ys.begin(), std::next(ys.begin(), 2));
+        for (int v : xs) {
+            std::cout << v << ",";
+        }
+        std::cout << std::endl;
+
+     }
+    {
+       
+        std::list<int> xs = {1, 2, 3};
+        std::list<int> ys = {4, 5, 6};
+        xs.splice(xs.end(), std::move(ys), ys.begin(), std::next(ys.begin(), 1));
+        for (int v : xs) {
+             std::cout << v << ",";
+         }
+         std::cout << std::endl;
+
+      }
+
+    
+    
 }
 
 int main(int argc, const char * argv[]) {
