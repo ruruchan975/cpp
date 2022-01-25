@@ -52,10 +52,10 @@ plt.plot(points2D[0][0], points2D[0][1], "*")
 plt.figure()
 plt.plot(x[0], x[1], "r.")
 
-fig = plt.figure()
-ax = fig.gca(projection='3d')
-
-ax.plot(points3D[0], points3D[1], points3D[2], "k.")
+#fig = plt.figure()
+#ax = fig.gca(projection='3d')
+#ax.plot(points3D[0], points3D[1], points3D[2], "k.")
 
 plt.show()
+
 
