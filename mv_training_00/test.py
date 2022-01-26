@@ -56,6 +56,53 @@ plt.plot(x[0], x[1], "r.")
 #ax = fig.gca(projection='3d')
 #ax.plot(points3D[0], points3D[1], points3D[2], "k.")
 
+# get index no 
+ndx = (corr[:,0] >= 0) & (corr[:,1] >= 0)
+print("ndx =")
+print(ndx)
+
+x1 = points2D[0][:,corr[ndx,0]]
+x1 = np.vstack((x1, np.ones(x1.shape[1])))
+x2 = points2D[1][:,corr[ndx,1]]
+x2 = np.vstack((x2, np.ones(x2.shape[1])))
+
+def compute_fundamental(x1, x2):
+    n = x1.shape[1]
+    if x2.shape[1] != n:
+        raise ValueError("Error")
+    
+    A = np.zeros((n,9))
+    for i in range(n):
+        A[i] =[
+            x1[0,i] * x2[0,i],
+            x1[0,i] * x2[1,i],
+            x1[0,i] * x2[2,i],
+            x1[1,i] * x2[0,i],
+            x1[1,i] * x2[1,i],
+            x1[1,i] * x2[2,i],
+            x1[2,i] * x2[0,i],
+            x1[2,i] * x2[1,i],
+            x1[2,i] * x2[2,i]
+        ]
+    
+    U,S,V = np.linalg.svd(A)
+    F = V[-1].reshape(3,3)
+
+    U,S,V = np.linalg.svd(F)
+    S[2] = 0
+    F = np.dot(U, np.dot(np.diag(S), V))
+
+    return F
+
+
+
+
+F = compute_fundamental(x1, x2)
+print("F =")
+print(F)
+
+
+
 plt.show()
 
 
