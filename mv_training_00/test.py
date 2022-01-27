@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 #from mpl_toolkits.mplot3d import axes3d, Axes3D
+import array
 
 data_dir = "./mertoncollege1/"
 
@@ -100,6 +101,24 @@ def compute_fundamental(x1, x2):
 F = compute_fundamental(x1, x2)
 print("F =")
 print(F)
+
+def compute_epipole(F):
+    U, S, V = np.linalg.svd(F)
+    e = V[-1]
+    return e / e[2]
+
+def skew(a):
+    return np.array([ [0, -a[2], a[1]], [a[2], 0, -a[0]], [-a[0], a[0], 0] ])
+
+
+def compute_P_from_fundamental(F):
+    e = compute_epipole(F.T)
+    Te = skew(e)
+    return np.vstack((np.dot(Te, F.T).T, e)).T
+
+P = compute_P_from_fundamental(F)
+print("P =")
+print(P)
 
 
 
